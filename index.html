@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <title>A Pen by  Grzegorz</title>
+      <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="target-score" id="target-score"></div>
+  <div class="score-board">
+    <div class="badge user-badge">user</div>
+    <div class="badge comp-badge">comp</div>
+    <span id="user-result">0</span>:<span id="comp-result">0</span>
+  </div>
+	<div class="output" id="output"></div>
+	<div class="buttoncontainer">
+  		<div class="button paper-button player-move" id="paper-button" data-move="paper"><i class="far fa-hand-paper" data-move="paper"></i></div>
+  		<div class="button rock-button player-move" id="rock-button" data-move="rock"><i class="far fa-hand-rock" data-move="rock"></i></div>
+  		<div class="button scissors-button player-move" id="scissors-button" data-move="scissors"><i class="far fa-hand-scissors" data-move="scissors"></i></div>
+	</div>
+  <button class="start-button" id="start-button">Start New Game!</button>
+  
+  <div class="overlay" id="modal-overlay">
+	<div class="modal" id="modal-one">
+		<a href="#" class="close">x</a>
+		<header>Modal one</header>
+		<div class="content">
+		</div>
+	</div>
+</div>
+  
+    <script src="js/index.js"></script>
+
+</body>
+
+</html>
