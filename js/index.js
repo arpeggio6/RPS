@@ -44,6 +44,7 @@ startButton.addEventListener("click", function() {
   params.progress = [];
   userScoreBoard.innerHTML = 0;
   compScoreBoard.innerHTML = 0;
+  deleteTable ();
   if (params.targetScore > 0) {
     targetScoreOutput.innerHTML = "First to reach " + params.targetScore + " wins.";
   }
@@ -55,9 +56,13 @@ startButton.addEventListener("click", function() {
 for (var i = 0; i < playerMoveButtons.length; i++) {
   playerMoveButtons[i].addEventListener("click", function(){
       var userChoice = this.getAttribute('data-move');
-      playerMove(userChoice);
+      
       if (!params.targetScore || params.targetScore <= 0){
         window.alert("Press start button first, please!");
+      }
+      else if (params.userScore !== params.targetScore &&
+               params.compScore !== params.targetScore) {
+        playerMove(userChoice);
       }
   })
 }
@@ -90,7 +95,6 @@ function lose(userChoice, computerChoice) {
   winner = 'Computer';
 }
 
-
 function playerMove(userChoice, computerChoice) {
   if (params.targetScore > 0) {
     if (params.userScore < params.targetScore && params.compScore < params.targetScore) {
@@ -119,40 +123,76 @@ function playerMove(userChoice, computerChoice) {
     }
   }
   var gameProgress = {
-         userChoice: userChoice,
-         computerChoice: computerChoice, 
-         userScore: params.userScore,
-         compScore: params.compScore,
-         roundsPlayed: params.roundsPlayed,
-         winner: winner,
-        }
+    roundsPlayed: params.roundsPlayed,
+    userChoice: userChoice,
+    computerChoice: computerChoice, 
+    userScore: params.userScore,
+    compScore: params.compScore,
+    winner: winner,
+  }
     params.progress.push(gameProgress);
 
     if (params.userScore === params.targetScore ||
        params.compScore === params.targetScore) {
-        createTable()      
+        createTable();      
         showModal();
     }
-}
+};
+
 function createTable() {
   var modalContent = document.getElementsByClassName('content')[0];
   var table = document.createElement('table');
+  var tHead = document.createElement('thead');
 
-  modalContent.appendChild(table);
+  modalContent.appendChild(table); 
+  table.appendChild(tHead); 
 
-  var tableContent = '<table><thead><tr><th>Rounds</th><th>Your Move</th><th>Computer Move</th><th>Round Result</th><th>Winner</th></tr></thead><tbody>';
-
-  for (i = 0; i < params.progress.length; i++) {
-    tableContent += '<tr><td>' +
-      params.progress[i].roundsPlayed + '</td><td>' +
-      params.progress[i].userChoice + '</td><td>' +
-      params.progress[i].computerChoice + '</td><td>' +
-      params.progress[i].userScore + ' : ' + params.progress[i].compScore + '</td><td>' +
-      params.progress[i].winner  + '</td></tr>'
+  function createTh(content) {
+    var th = document.createElement('th');
+    th.innerHTML = content;
+    return th;
   }
-  tableContent += '</tbody></table>';
-    
-  modalContent.innerHTML = tableContent;
+
+  function createCell(content) {
+    var td = document.createElement('td');
+    td.innerHTML = content;
+    return td;
+  }
+
+  Object.keys(params.progress[0]).forEach(function(key){
+    var thContent = createTh(key);
+    tHead.appendChild(thContent);
+  })
+
+  params.progress.forEach(function(round){
+    var tBody = document.createElement('tbody');
+    var row = document.createElement('tr');
+
+    var userChoiceCell = createCell(round.userChoice);
+    var computerChoiceCell = createCell(round.computerChoice);
+    var userScoreCell = createCell(round.userScore);
+    var compScoreCell = createCell(round.compScore);
+    var roundsPlayedCell = createCell(round.roundsPlayed);
+    var winnerCell = createCell(round.winner);
+
+    row.appendChild(roundsPlayedCell);
+    row.appendChild(userChoiceCell);
+    row.appendChild(computerChoiceCell);
+    row.appendChild(userScoreCell);
+    row.appendChild(compScoreCell);
+    row.appendChild(winnerCell);
+
+    tBody.appendChild(row);
+    table.appendChild(tBody);
+  })
+};
+
+function deleteTable() {
+  if (document.getElementsByTagName('table')[0]) {
+    var parent = document.getElementsByClassName('content')[0];
+    var child = document.getElementsByTagName('table')[0];
+    parent.removeChild(child);
+  }
 }
 
 var showModal = function(){
@@ -164,7 +204,7 @@ var showModal = function(){
 	
 for(var i = 0; i < modalLinks.length; i++){
 	modalLinks[i].addEventListener('click', showModal);
-}
+};
 
 var hideModal = function(event){
 	event.preventDefault();
@@ -173,11 +213,11 @@ var hideModal = function(event){
 	
 for(var i = 0; i < closeButtons.length; i++){
 	closeButtons[i].addEventListener('click', hideModal);
-}
+};
 document.querySelector('#modal-overlay').addEventListener('click', hideModal);
 
 for(var i = 0; i < modals.length; i++){
 	modals[i].addEventListener('click', function(event){
 		event.stopPropagation();
-	});
-}
+	})
+};

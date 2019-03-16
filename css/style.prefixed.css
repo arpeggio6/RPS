@@ -163,4 +163,8 @@ body {
   min-height: 30px;
   padding: 5px 30px;
 }
+
+.modal td {
+  padding: 5px 35px;
+}
 /*# sourceMappingURL=style.prefixed.css.map */
